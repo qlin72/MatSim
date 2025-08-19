@@ -8,7 +8,7 @@ import RunNetOnFolder as run
 from collections import defaultdict
 ##################################Input paramaters#########################################################################################
 parser = argparse.ArgumentParser(description='Given a folder of images (x.jpg) and their corresponding ROI masks (x_MASK.png) find for each image the most similar image in the folder (should run out of the box with sample folder)')
-parser.add_argument('--input_folder', default=r"/home/qingran/Desktop/mat_sim_test_dms_20", type=str, help='path to folder with images and masks')
+parser.add_argument('--input_folder', default=r"/data/FMD/mat_sim_test", type=str, help='path to folder with images and masks')
 parser.add_argument('--train_model_path', default= r"/home/qingran/Desktop/MatSim/logs/Defult.torch", type=str, help='path to trained model')
 parser.add_argument('--max_img_size', default= 900, type=int, help=' max image size, larger images will be shrinked')
 parser.add_argument('--min_img_size', default= 200, type=int, help=' min image size, smaller images will be resized')
@@ -22,7 +22,7 @@ args = parser.parse_args()
 # Usage python Test_Model.py --input_folder sample_data/test  --train_model_path logs/Defult.torch
 
 # categories = ["plastic", "rubber", "metal", "leather", "fabric", "wood", "stone", "ceramic"]
-categories =  ["plastic", "rubber","metal", "leather", "fabric", "wood", "stone", "ceramic", "bone", "cardboard", "concrete", "foliage", "fur", "gemstone", "glass", "paper", "soil", "sponge", "wax", "wicker"]
+categories = ["fabric","foliage","glass","leather","metal","paper","plastic","stone","water","wood"] 
 class_counts = defaultdict(lambda: {"correct": 0, "total": 0})
 
 # CSV 日志文件路径
@@ -80,7 +80,7 @@ def calculate_accuracies():
 
 if __name__ == "__main__":
     print("Generating Descriptors for ",args.input_folder, "\\n Using model ",args.train_model_path,"\n\n\n\n")
-    desc_dict=run.Run(DataPath = args.input_folder, args=  args, Trained_model_path= args.train_model_path ,  outpath = "logs/dms_descriptor_dict_20.json")
+    desc_dict=run.Run(DataPath = args.input_folder, args=  args, Trained_model_path= args.train_model_path ,  outpath = "logs/fmd_test.json")
     desc=desc_dict['descs']
     print("\n------  results---------\n Top 1 match list")
     for nm in desc: # match descriptor
